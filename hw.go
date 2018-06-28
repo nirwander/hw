@@ -47,3 +47,17 @@ func main() {
 	fmt.Println(time.Since(start).String())
 	fmt.Println(b.String())
 }
+
+func bzipCompress(d []byte) ([]byte, error) {
+	var out bytes.Buffer
+	// -c : compress
+	// -9 : select the highest level of compresion
+	cmd := exec.Command("bzip2", "-c", "-9")
+	cmd.Stdin = bytes.NewBuffer(d)
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		return nil, err
+	}
+	return out.Bytes(), nil
+}

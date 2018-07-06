@@ -12,24 +12,22 @@ const curl = `D:\_Soft\curl-7.60.0-win64-mingw\bin\curl.exe`
 
 func main() {
 	//Получаем список файлов
-	fileBytes, err := ioutil.ReadFile(`D:\list.txt`)
+	fileBytes, err := ioutil.ReadFile(`E:\list.txt`)
 	if err != nil {
 		panic(err)
 	}
 
 	lines := bytes.Split(fileBytes, []byte("\n"))
 
-	files := make(chan string, 3)
-	result := make(chan string)
+	result := make(chan string, 10)
+	limit := make(chan int, 3)
 
 	for j, line := range lines {
 		fmt.Println(j)
 		fmt.Println(time.Now().Format(time.RFC3339))
-		files <- string(line)
-		//fmt.Println(files)
-		go runCurl(files, result)
+		limit <- 1
+		go runCurl(line, result, limit)
 	}
-	close(files)
 
 	fmt.Println("Waiting routines")
 	for i := 0; i < len(lines); i++ {
@@ -40,12 +38,11 @@ func main() {
 
 //curl --upload-file "Z:\Exadata\SR 3-17840843051  RAC database crash 20180705\ExaWatcher_msk-kb-dbadm04.megafon.ru_2018-07-05_09_00_00_5h00m00s.tar.bz2" --user ivan.zotov@megafon.ru:.Member3 --proxy http://dv-proxy.megafon.ru:3128 https://transport.oracle.com/upload/issue/3-17840843051/
 
-func runCurl(fileCh chan string, res chan string) {
-	file := <-fileCh
+func runCurl(file string, res chan string, limit chan int) {
 	file = strings.TrimSpace(file)
 	//fmt.Println(args)
-	pos := strings.Index(file, "SR 3-")
-	sr := file[pos+3 : pos+16]
+	//pos := strings.Index(file, "SR 3-")
+	//sr := file[pos+3 : pos+16]
 	//fmt.Println(pos)
 	//fmt.Println(sr)
 
@@ -56,7 +53,7 @@ func runCurl(fileCh chan string, res chan string) {
 	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:.Member3`)
 	cmdArgs = append(cmdArgs, `--proxy`)
 	cmdArgs = append(cmdArgs, `http://dv-proxy.megafon.ru:3128`)
-	cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
+	//cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
 
 	//fmt.Println(cmdArgs)
 	start := time.Now()
@@ -75,7 +72,7 @@ func runCurl(fileCh chan string, res chan string) {
 	fmt.Println("Done goroutine")
 	//fmt.Println(time.Now())
 	res <- fmt.Sprintf("%s : In %s uploaded file %s\n", time.Now().Format(time.RFC3339), time.Since(start), file)
-
+	<-limit
 	//fmt.Srintf("%s : In %s uploaded file %s\n", time.Now(), time.Since(start), file)
 
 }

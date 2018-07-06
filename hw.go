@@ -17,6 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Printf("Output:\n%s\n", out)
 	fmt.Println("Now Running SSH")
 	start := time.Now()

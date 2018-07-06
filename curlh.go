@@ -54,7 +54,7 @@ func runCurl(file string, res chan string, limit chan int) {
 	cmdArgs = append(cmdArgs, `--user`)
 	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:.Member3`)
 	cmdArgs = append(cmdArgs, `--proxy`)
-	cmdArgs = append(cmdArgs, `http://dv-proxy.megafon.ru:3128`)
+	cmdArgs = append(cmdArgs, `http://msk-proxy.megafon.ru:3128`)
 	cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
 
 	//fmt.Println(cmdArgs)

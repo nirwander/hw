@@ -53,7 +53,7 @@ func runCurl(file string, limit chan int) {
 	cmdArgs = append(cmdArgs, `--upload-file`)
 	cmdArgs = append(cmdArgs, file)
 	cmdArgs = append(cmdArgs, `--user`)
-	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:.Member3`)
+	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:****`)
 	cmdArgs = append(cmdArgs, `--proxy`)
 	cmdArgs = append(cmdArgs, `http://msk-proxy.megafon.ru:3128`)
 	cmdArgs = append(cmdArgs, `--proxy-user`)

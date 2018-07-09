@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"os/exec"
 	"strings"
 	"sync"
 	"time"
@@ -12,11 +13,12 @@ import (
 //const curl = `D:\_Soft\curl-7.60.0-win64-mingw\bin\curl.exe`
 const curl = `curl.exe`
 
+// Группа синхронизации - для ожидания завершения всех загрузок
 var wg sync.WaitGroup
 
 func main() {
 	//Получаем список файлов
-	fileBytes, err := ioutil.ReadFile(`E:\list.txt`)
+	fileBytes, err := ioutil.ReadFile(`list.txt`)
 	if err != nil {
 		panic(err)
 	}
@@ -25,9 +27,9 @@ func main() {
 
 	limit := make(chan int, 3)
 
-	for j, line := range lines {
-		fmt.Println(j)
-		fmt.Println(time.Now().Format(time.RFC3339))
+	for _, line := range lines {
+		//fmt.Println(j)
+		//fmt.Println(time.Now().Format(time.RFC3339))
 		limit <- 1
 		wg.Add(1)
 		go runCurl(string(line), limit)
@@ -44,8 +46,8 @@ func runCurl(file string, limit chan int) {
 	defer wg.Done()
 	file = strings.TrimSpace(file)
 	//fmt.Println(args)
-	//pos := strings.Index(file, "SR 3-")
-	//sr := file[pos+3 : pos+16]
+	pos := strings.Index(file, "SR 3-")
+	sr := file[pos+3 : pos+16]
 	//fmt.Println(pos)
 	//fmt.Println(sr)
 
@@ -53,18 +55,18 @@ func runCurl(file string, limit chan int) {
 	cmdArgs = append(cmdArgs, `--upload-file`)
 	cmdArgs = append(cmdArgs, file)
 	cmdArgs = append(cmdArgs, `--user`)
-	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:****`)
+	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:***`)
 	cmdArgs = append(cmdArgs, `--proxy`)
 	cmdArgs = append(cmdArgs, `http://msk-proxy.megafon.ru:3128`)
 	cmdArgs = append(cmdArgs, `--proxy-user`)
-	cmdArgs = append(cmdArgs, `ivan.zotov:****`)
-	//cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
+	cmdArgs = append(cmdArgs, `ivan.zotov:***`)
+	cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
 
 	//fmt.Println(cmdArgs)
 	start := time.Now()
 	// Делаем 5 попыток загрузки
 	var uploaded bool
-	/*for i := 0; i < 5; i++ {
+	for i := 0; i < 5; i++ {
 		cmd := exec.Command(curl, cmdArgs...)
 		err := cmd.Run()
 		if err == nil {
@@ -73,8 +75,8 @@ func runCurl(file string, limit chan int) {
 		}
 		fmt.Printf("Try No. %d", i)
 		fmt.Println(err)
-	}*/
-	time.Sleep(5 * time.Second)
+	}
+	//time.Sleep(5 * time.Second)
 	//fmt.Println("Done goroutine")
 	if uploaded {
 		fmt.Printf("%s : In %s uploaded file %s\n", time.Now().Format(time.RFC3339), time.Since(start), file)

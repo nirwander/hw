@@ -1,13 +1,18 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"os/exec"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 //const curl = `D:\_Soft\curl-7.60.0-win64-mingw\bin\curl.exe`
@@ -18,11 +23,14 @@ var wg sync.WaitGroup
 
 func main() {
 	//Получаем список файлов
-	fileBytes, err := ioutil.ReadFile(`list.txt`)
+	fileBytes, err := ioutil.ReadFile(`D:\list.txt`)
 	if err != nil {
 		panic(err)
 	}
 
+	username, password := credentials()
+	fmt.Printf("%s, %s", username, password)
+	panic("\nOops\n")
 	lines := bytes.Split(fileBytes, []byte("\n"))
 
 	limit := make(chan int, 3)
@@ -57,7 +65,7 @@ func runCurl(file string, limit chan int) {
 	cmdArgs = append(cmdArgs, `--user`)
 	cmdArgs = append(cmdArgs, `ivan.zotov@megafon.ru:***`)
 	cmdArgs = append(cmdArgs, `--proxy`)
-	cmdArgs = append(cmdArgs, `http://msk-proxy.megafon.ru:3128`)
+	cmdArgs = append(cmdArgs, `http://dv-proxy.megafon.ru:3128`)
 	cmdArgs = append(cmdArgs, `--proxy-user`)
 	cmdArgs = append(cmdArgs, `ivan.zotov:***`)
 	cmdArgs = append(cmdArgs, `https://transport.oracle.com/upload/issue/`+sr+`/`)
@@ -84,4 +92,23 @@ func runCurl(file string, limit chan int) {
 		fmt.Printf("%s : failed to upload file %s\n", time.Now().Format(time.RFC3339), file)
 	}
 	<-limit
+}
+
+func credentials() (string, string) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("Enter Username: ")
+	username, _ := reader.ReadString('\n')
+
+	fmt.Print("Enter Password: ")
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+	if err == nil {
+		fmt.Println("\nPassword typed: " + string(bytePassword))
+	} else {
+		fmt.Println("Can't get password")
+		panic(err)
+	}
+	password := string(bytePassword)
+
+	return strings.TrimSpace(username), strings.TrimSpace(password)
 }

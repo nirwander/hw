@@ -39,7 +39,6 @@ func main() {
 		//fmt.Println(j)
 		//fmt.Println(time.Now().Format(time.RFC3339))
 		limit <- 1
-		wg.Add(1)
 		go runCurl(string(line), limit)
 	}
 
@@ -51,6 +50,7 @@ func main() {
 //curl --upload-file "Z:\Exadata\SR 3-17840843051  RAC database crash 20180705\ExaWatcher_msk-kb-dbadm04.megafon.ru_2018-07-05_09_00_00_5h00m00s.tar.bz2" --user ivan.zotov@megafon.ru:.Member3 --proxy http://dv-proxy.megafon.ru:3128 https://transport.oracle.com/upload/issue/3-17840843051/
 
 func runCurl(file string, limit chan int) {
+	wg.Add(1)
 	defer wg.Done()
 	file = strings.TrimSpace(file)
 	//fmt.Println(args)

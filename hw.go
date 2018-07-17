@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"time"
 
@@ -11,7 +12,17 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World!")
+	fmt.Println("Hello \"World!\"")
+
+	line := `Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm04_1745XC2076_2018_07_16_09_46.tar.bz2`
+	if _, err := os.Stat(line); err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("File %s does not exists\n", line)
+		} else {
+			fmt.Printf("\n%s\n", err.Error())
+		}
+	}
+	panic("Got here")
 
 	out, err := exec.Command("cmd", "/k", "dir", "C:\\Users").Output()
 	if err != nil {

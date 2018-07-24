@@ -1,0 +1,37 @@
+Oracle database
+
+Используем драйвер
+https://github.com/mattn/go-oci8
+
+Распаковываем pkg-config-lite-0.28-1_bin-win32.zip в 
+C:\Users\wander\AppData\Local\pkg-config-lite-0.28-1
+
+Устанавливаем
+mingw-w64-install.exe
+
+Добавляем в PATH
+C:\Users\wander\AppData\Local\pkg-config-lite-0.28-1\bin
+C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
+
+Добавляем переменную окружения 
+PKG_CONFIG_PATH=C:\Users\wander\AppData\Local\pkg-config-lite-0.28-1
+
+В PKG_CONFIG_PATH создаем файл oci8.pc
+	prefix=/devel/target/XXXXXXXXXXXXXXXXXXXXXXXXXX
+	exec_prefix=${prefix}
+	libdir=C:/app/client/wander/product/18.0.0/client_1/oci/lib/msvc
+	includedir=C:/app/client/wander/product/18.0.0/client_1/oci/include
+	
+	glib_genmarshal=glib-genmarshal
+	gobject_query=gobject-query
+	glib_mkenums=glib-mkenums
+	
+	Name: oci8
+	Description: oci8 library
+	Libs: -L${libdir} -loci
+	Cflags: -I${includedir}
+	Version: 11.2
+
+
+Выполняем 
+go get github.com/mattn/go-oci8

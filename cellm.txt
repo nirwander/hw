@@ -1,0 +1,7 @@
+msk-dev-celadm01: CL_CPUT        2018-08-20T14:51:07+03:00       msk_dev_celadm01        7.4 %
+msk-dev-celadm02: CL_CPUT        2018-08-20T14:51:16+03:00       msk_dev_celadm02        5.4 %
+msk-dev-celadm03: CL_CPUT        2018-08-20T14:51:02+03:00       msk_dev_celadm03        5.4 %
+msk-dev-celadm04: CL_CPUT        2018-08-20T14:51:24+03:00       msk_dev_celadm04        5.3 %
+msk-dev-celadm05: CL_CPUT        2018-08-20T14:51:15+03:00       msk_dev_celadm05        5.3 %
+msk-dev-celadm06: CL_CPUT        2018-08-20T14:51:16+03:00       msk_dev_celadm06        5.4 %
+msk-dev-celadm07: CL_CPUT        2018-08-20T14:51:30+03:00       msk_dev_celadm07        5.3 %

@@ -1,37 +1,26 @@
 
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm09_1745XC2077_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm06_1745XC202G_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm10_1745XC202W_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm05_1745XC2074_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm04_1745XC2076_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm01_1744XC204B_2018_07_16_09_46.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\sundiag_msk-kb-celadm03_1745XC202J_2018_07_16_09_46.tar.bz2
-
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm06.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm09.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm10.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm05.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm07.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm08.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm04.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm01.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm02.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-celadm03.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm08.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm03.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm05.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm06.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm04.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm07.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm02.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\ExaWatcher_msk-kb-dbadm01.megafon.ru_2018-07-15_14_00_00_7h00m00s.tar.bz2
-
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm04.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm03.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm08.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm05.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm07.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm06.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm02.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
-Z:\Exadata\SR 3-17659736561  Exadata RAC nodes eviction 20180608\msk-kb-dbadm01.tfa_Mon_Jul_16_04_49_38_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm01.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm02.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm03.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm04.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm05.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm06.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm07.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm08.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm09.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm10.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm01.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm02.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm03.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm04.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm05.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm06.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm07.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm08.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm01.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm02.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm03.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm04.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm05.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm06.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm08.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip

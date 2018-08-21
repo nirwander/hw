@@ -1,0 +1,14 @@
+[
+    {
+        "hostGroup":"/root/cell_group",
+        "metricDb":"msk_uat",
+        "metricGroup":"cellmetric",
+        "metricCmd":"cellcli -e list metriccurrent where name = 'CL_CPUT' attributes name,collectionTime,metricObjectName,metricValue"	
+    },
+    {
+        "hostGroup":"/root/cell_group",
+        "metricDb":"msk_uat",
+        "metricGroup":"cellmetric",
+        "metricCmd":"cellcli -e list metriccurrent where objecttype = 'CELLDISK' attributes name,collectionTime,metricObjectName,metricValue"
+    }
+]

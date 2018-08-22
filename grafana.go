@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,9 +17,10 @@ import (
 var data []string
 
 const dcli = `/usr/local/bin/dcli`
+const configFile = `/root/go/src/grafana.json`
 
 // Структура для хранения конфигурации, получаемой из json файла
-type config struct {
+type config []struct {
 	HostGroup   string `json:"hostGroup"`
 	MetricDb    string `json:"metricDb"`
 	MetricGroup string `json:"metricGroup"`
@@ -26,10 +28,22 @@ type config struct {
 }
 
 // Config - configuration parameters
-var Config []config
+var Config config
+
+// cmd flags
+var fdebug bool
+
+func init() {
+	const (
+		defaultDebug = false
+		debugUsage   = "set debug=true to get output metrics in StdOut"
+	)
+	flag.BoolVar(&fdebug, "debug", defaultDebug, debugUsage)
+}
 
 func main() {
 
+	flag.Parse()
 	getConfig()
 
 	conn, err := net.Dial("tcp", "unix-dashboard.megafon.ru:2103")
@@ -64,7 +78,9 @@ func main() {
 		log.Println("Sending data...")
 
 		for _, tcpString := range data {
-			fmt.Printf("%s", tcpString)
+			if fdebug {
+				fmt.Printf("%s", tcpString)
+			}
 			fmt.Fprintf(conn, tcpString)
 		}
 
@@ -131,7 +147,7 @@ func execCmd(bin string, args []string) bytes.Buffer {
 }
 
 func getConfig() {
-	fileBytes, err := ioutil.ReadFile(`grafana.json`)
+	fileBytes, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		log.Fatal("Error reading config file ", err)
 	}

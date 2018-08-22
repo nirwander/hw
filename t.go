@@ -1,22 +1,23 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"strconv"
-	"strings"
+	"log"
+	"os/exec"
 )
 
-//const dcli = `/usr/local/bin/dcli`
+const dcli = `/usr/local/bin/dcli`
 
 func main() {
 
-	/* var cmdArgs []string
+	var cmdArgs []string
 	cmdArgs = append(cmdArgs, `-g`)
-	cmdArgs = append(cmdArgs, `~/cell_group`)
+	cmdArgs = append(cmdArgs, `/root/cell_group`)
 	cmdArgs = append(cmdArgs, `-l`)
 	cmdArgs = append(cmdArgs, `root`)
 	cmdArgs = append(cmdArgs, `--maxlines=1000000`)
-	cmdArgs = append(cmdArgs, `date`)
+	cmdArgs = append(cmdArgs, `ipmitool sunoem cli "show /SYS/T_AMB" | grep value`)
 
 	var out bytes.Buffer
 	var serr bytes.Buffer
@@ -30,12 +31,12 @@ func main() {
 		log.Fatal(serr, err)
 	}
 
-	fmt.Printf("%s\n", out) */
-	f, err := strconv.ParseFloat(strings.Replace("335,693", ",", "", -1), 64)
+	fmt.Printf("%s\n", out)
+	/* f, err := strconv.ParseFloat(strings.Replace("335,693", ",", "", -1), 64)
 	if err != nil {
 		fmt.Println("Error converting metric value", err)
 		return
 	}
 
-	fmt.Println(f)
+	fmt.Println(f) */
 }

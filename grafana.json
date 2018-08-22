@@ -3,12 +3,21 @@
         "hostGroup":"/root/cell_group",
         "metricDb":"msk_uat",
         "metricGroup":"cellmetric",
-        "metricCmd":"cellcli -e list metriccurrent where name = 'CL_CPUT' attributes name,collectionTime,metricObjectName,metricValue"	
+        "metricCmd":"cellcli -e list metriccurrent where name = 'CL_CPUT' attributes name,collectionTime,metricObjectName,metricValue",	
+        "metricFormat":""
     },
     {
         "hostGroup":"/root/cell_group",
         "metricDb":"msk_uat",
         "metricGroup":"cellmetric",
-        "metricCmd":"cellcli -e list metriccurrent where objecttype = 'CELLDISK' attributes name,collectionTime,metricObjectName,metricValue"
+        "metricCmd":"cellcli -e list metriccurrent where objecttype = 'CELLDISK' attributes name,collectionTime,metricObjectName,metricValue",
+        "metricFormat":""
+    },
+    {
+        "hostGroup":"/root/cell_group",
+        "metricDb":"msk_uat",
+        "metricGroup":"Temperature",
+        "metricCmd":"ipmitool sunoem cli \"show /SYS/T_AMB\" | grep value",
+        "metricFormat":""
     }
 ]

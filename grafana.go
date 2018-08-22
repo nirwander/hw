@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"bytes"
 	"encoding/json"
 	"flag"
@@ -20,15 +21,16 @@ const dcli = `/usr/local/bin/dcli`
 const configFile = `/root/go/src/grafana.json`
 
 // Структура для хранения конфигурации, получаемой из json файла
-type config []struct {
-	HostGroup   string `json:"hostGroup"`
-	MetricDb    string `json:"metricDb"`
-	MetricGroup string `json:"metricGroup"`
-	MetricCmd   string `json:"metricCmd"`
+type config struct {
+	HostGroup    string `json:"hostGroup"`
+	MetricDb     string `json:"metricDb"`
+	MetricGroup  string `json:"metricGroup"`
+	MetricCmd    string `json:"metricCmd"`
+	MetricFormat sring  `json:"metricFormat"`
 }
 
 // Config - configuration parameters
-var Config config
+var Config []config
 
 // cmd flags
 var fdebug bool
@@ -70,7 +72,7 @@ func main() {
 		start := time.Now()
 		log.Println("Getting data...")
 		data = make([]string, 10, 100)
-		getData(&data, cmdArgs, arr.MetricDb, arr.MetricGroup)
+		getData(&data, cmdArgs, arr)
 		log.Println("Got in ", time.Since(start).String())
 
 		//fmt.Printf("%q", data)
@@ -89,7 +91,7 @@ func main() {
 	}
 }
 
-func getData(s *[]string, args []string, metricDb string, metricGroup string) {
+func getData(s *[]string, args []string, metricCfg config) {
 	//fileBytes, _ := ioutil.ReadFile(`C:\Users\ivan.zotov\go\src\github.com\nirwander\hw\cellm.txt`)
 	fileBytes := execCmd(dcli, args)
 
@@ -101,30 +103,39 @@ func getData(s *[]string, args []string, metricDb string, metricGroup string) {
 	var metricObj string
 	var metricValue float64
 	var err error
+	var re regexp.Regexp
+	if metricCfg.MetricFormat != nil {
+		re = regexp.MustCompile(metricCfg.MetricFormat)
+	}
 
 	for _, line := range lines {
 
-		fields := bytes.Fields(line)
-		if len(fields) > 5 {
-			//fmt.Printf("%q\n", fields)
-			hostname = strings.TrimSuffix(string(fields[0]), ":")
-			metricObj = string(fields[3])
-			metric = string(fields[1])
-			metricTime, err = time.Parse(time.RFC3339, string(fields[2]))
-			if err != nil {
-				fmt.Println("Error converting time", err)
-				return
-			}
-			metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[4]), ",", "", -1), 64)
-			if err != nil {
-				fmt.Println("Error converting metric value", err)
-				return
-			}
+		if metricCfg.MetricFormat == nil {
+			fields := bytes.Fields(line)
+			if len(fields) > 5 {
+				//fmt.Printf("%q\n", fields)
+				hostname = strings.TrimSuffix(string(fields[0]), ":")
+				metricObj = string(fields[3])
+				metric = string(fields[1])
+				metricTime, err = time.Parse(time.RFC3339, string(fields[2]))
+				if err != nil {
+					fmt.Println("Error converting time", err)
+					return
+				}
+				metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[4]), ",", "", -1), 64)
+				if err != nil {
+					fmt.Println("Error converting metric value", err)
+					return
+				}
 
-			//mn := "Oracle.DWH.msk_uat.cellmetric_sum.cpu.avg"
-			str := "Oracle.DWH." + metricDb + "." + metricGroup + "." + hostname + "." + metric + "." + metricObj + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
+				//mn := "Oracle.DWH.msk_uat.cellmetric_sum.cpu.avg"
+				str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + "." + metric + "." + metricObj + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
 
-			*s = append(*s, str)
+				*s = append(*s, str)
+			}
+		}
+		else {
+
 		}
 	}
 }

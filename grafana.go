@@ -19,6 +19,7 @@ var data []string
 
 const dcli = `/usr/local/bin/dcli`
 const configFile = `/root/go/src/grafana.json`
+const grafanaSrv = `unix-dashboard.megafon.ru:2103`
 
 // Структура для хранения конфигурации, получаемой из json файла
 type config struct {
@@ -26,7 +27,7 @@ type config struct {
 	MetricDb     string `json:"metricDb"`
 	MetricGroup  string `json:"metricGroup"`
 	MetricCmd    string `json:"metricCmd"`
-	MetricFormat sring  `json:"metricFormat"`
+	MetricFormat string `json:"metricFormat"`
 }
 
 // Config - configuration parameters
@@ -48,7 +49,7 @@ func main() {
 	flag.Parse()
 	getConfig()
 
-	conn, err := net.Dial("tcp", "unix-dashboard.megafon.ru:2103")
+	conn, err := net.Dial("tcp", grafanaSrv)
 	if err != nil {
 		fmt.Println("Error establishing connection to grafana", err)
 		return
@@ -104,14 +105,13 @@ func getData(s *[]string, args []string, metricCfg config) {
 	var metricValue float64
 	var err error
 	var re regexp.Regexp
-	if metricCfg.MetricFormat != nil {
-		re = regexp.MustCompile(metricCfg.MetricFormat)
-	}
+
 
 	for _, line := range lines {
 
-		if metricCfg.MetricFormat == nil {
-			fields := bytes.Fields(line)
+		fields := bytes.Fields(line)
+		switch metricCfg.MetricFormat {
+		case "cellcli" :
 			if len(fields) > 5 {
 				//fmt.Printf("%q\n", fields)
 				hostname = strings.TrimSuffix(string(fields[0]), ":")
@@ -133,10 +133,23 @@ func getData(s *[]string, args []string, metricCfg config) {
 
 				*s = append(*s, str)
 			}
+		case "ilom" :
+			hostname = strings.TrimSuffix(string(fields[0]), ":")
+			metricTime = time.Now().In(time.Local)
+			for i, field := range fields {
+				if field == "value" && fields[i+1] == "=" {
+					metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[i+2]), ",", "", -1), 64)
+					if err != nil {
+						fmt.Println("Error converting metric value", err)
+						return
+					}
+					str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
+					*s = append(*s, str)
+					break
+				}
+			}
 		}
-		else {
-
-		}
+	}
 	}
 }
 

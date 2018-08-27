@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 const dcli = `/usr/local/bin/dcli`
@@ -32,6 +34,9 @@ func main() {
 	}
 
 	fmt.Printf("%s\n", out)
+
+	fields := bytes.Fields(out.Bytes())
+	fmt.Printf("%q\n", fields)
 	/* f, err := strconv.ParseFloat(strings.Replace("335,693", ",", "", -1), 64)
 	if err != nil {
 		fmt.Println("Error converting metric value", err)
@@ -39,4 +44,17 @@ func main() {
 	}
 
 	fmt.Println(f) */
+
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+	fmt.Println(exPath)
 }

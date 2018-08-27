@@ -1,7 +1,6 @@
 package main
 
 import (
-	"regexp"
 	"bytes"
 	"encoding/json"
 	"flag"
@@ -9,7 +8,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -18,7 +19,7 @@ import (
 var data []string
 
 const dcli = `/usr/local/bin/dcli`
-const configFile = `/root/go/src/grafana.json`
+const configFile = `grafana.json`
 const grafanaSrv = `unix-dashboard.megafon.ru:2103`
 
 // Структура для хранения конфигурации, получаемой из json файла
@@ -39,7 +40,7 @@ var fdebug bool
 func init() {
 	const (
 		defaultDebug = false
-		debugUsage   = "set debug=true to get output metrics in StdOut"
+		debugUsage   = "set debug=true to get output metrics in StdOut instead of sending to Grafana"
 	)
 	flag.BoolVar(&fdebug, "debug", defaultDebug, debugUsage)
 }
@@ -72,7 +73,7 @@ func main() {
 		//'Oracle.DWH.''||p_db||''.cellmetric_sum.''||p_disk_type||''.''||regexp_replace(substr(regexp_replace(p_metric_name,''[(,),%,/,:]'',''''),1,49),''[*, ]'',''_'')||''.''||p_suffix
 		start := time.Now()
 		log.Println("Getting data...")
-		data = make([]string, 10, 100)
+		data = make([]string, 0, 100)
 		getData(&data, cmdArgs, arr)
 		log.Println("Got in ", time.Since(start).String())
 
@@ -83,11 +84,12 @@ func main() {
 		for _, tcpString := range data {
 			if fdebug {
 				fmt.Printf("%s", tcpString)
+			} else {
+				fmt.Fprintf(conn, tcpString)
 			}
-			fmt.Fprintf(conn, tcpString)
 		}
 
-		log.Println("Sent in ", time.Since(start).String())
+		log.Println("Sent in", time.Since(start).String(), len(data), "records")
 
 	}
 }
@@ -104,20 +106,21 @@ func getData(s *[]string, args []string, metricCfg config) {
 	var metricObj string
 	var metricValue float64
 	var err error
-	var re regexp.Regexp
 
+	//Для синхронизации показателей на графиках выгружаем все данные в одно время. Иначе получаем "лесенку"
+	metricTime = time.Now().In(time.Local)
 
 	for _, line := range lines {
 
 		fields := bytes.Fields(line)
 		switch metricCfg.MetricFormat {
-		case "cellcli" :
+		case "cellcli":
 			if len(fields) > 5 {
 				//fmt.Printf("%q\n", fields)
 				hostname = strings.TrimSuffix(string(fields[0]), ":")
 				metricObj = string(fields[3])
 				metric = string(fields[1])
-				metricTime, err = time.Parse(time.RFC3339, string(fields[2]))
+
 				if err != nil {
 					fmt.Println("Error converting time", err)
 					return
@@ -128,28 +131,27 @@ func getData(s *[]string, args []string, metricCfg config) {
 					return
 				}
 
-				//mn := "Oracle.DWH.msk_uat.cellmetric_sum.cpu.avg"
 				str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + "." + metric + "." + metricObj + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
 
 				*s = append(*s, str)
 			}
-		case "ilom" :
-			hostname = strings.TrimSuffix(string(fields[0]), ":")
-			metricTime = time.Now().In(time.Local)
-			for i, field := range fields {
-				if field == "value" && fields[i+1] == "=" {
-					metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[i+2]), ",", "", -1), 64)
-					if err != nil {
-						fmt.Println("Error converting metric value", err)
-						return
+		case "ilom":
+			if len(fields) > 3 {
+				hostname = strings.TrimSuffix(string(fields[0]), ":")
+				for i, field := range fields {
+					if string(field) == "value" && string(fields[i+1]) == "=" {
+						metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[i+2]), ",", "", -1), 64)
+						if err != nil {
+							fmt.Println("Error converting metric value", err)
+							return
+						}
+						str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
+						*s = append(*s, str)
+						break
 					}
-					str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
-					*s = append(*s, str)
-					break
 				}
 			}
 		}
-	}
 	}
 }
 
@@ -163,22 +165,33 @@ func execCmd(bin string, args []string) bytes.Buffer {
 
 	err := cmd.Run()
 	if err != nil {
-		fmt.Printf("%s\n", serr)
-		log.Fatal(err)
+		// Некритичная ошибка
+		if bytes.Contains(serr.Bytes(), []byte("Unable to connect")) {
+			log.Printf("%s\n", serr)
+		} else {
+			log.Printf("%s\n", serr)
+			log.Fatal(err)
+		}
 	}
 
 	return out
 }
 
 func getConfig() {
-	fileBytes, err := ioutil.ReadFile(configFile)
+	ex, err := os.Executable()
 	if err != nil {
-		log.Fatal("Error reading config file ", err)
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	fileBytes, err := ioutil.ReadFile(exPath + "/" + configFile)
+	if err != nil {
+		log.Fatal("Error reading config file - expecting", exPath+"/"+configFile, err)
 	}
 
 	err = json.Unmarshal(fileBytes, &Config)
 	if err != nil {
-		log.Fatal("Error parsing config ", err)
+		log.Fatal("Error parsing config", err)
 	}
 
 	//fmt.Println(Config)

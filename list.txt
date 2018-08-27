@@ -1,26 +1,8 @@
-
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm01.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm02.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm03.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm04.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm05.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm06.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm07.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm08.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm09.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-celadm10.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm01.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm02.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm03.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm04.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm05.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm06.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm07.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\ExaWatcher_msk-kb-dbadm08.megafon.ru_2018-07-26_02_00_00_12h00m00s.tar.bz2
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm01.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm02.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm03.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm04.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm05.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm06.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
-Z:\Exadata\SR 3-17970083751  RAC db crash 2018 July 26\msk-kb-dbadm08.tfa_Thu_Jul_26_14_11_16_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm01.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm02.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm03.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm04.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm05.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm06.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm07.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip
+Z:\Exadata\SR 3-18174382381  Massive SS - contention\msk-dm-dbadm08.tfa_srdc_dbperf_Sat_Aug_25_04_12_30_MSK_2018.zip

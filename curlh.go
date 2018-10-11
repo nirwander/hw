@@ -16,17 +16,17 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
-const curl = `D:\_Soft\curl-7.60.0-win64-mingw\bin\curl.exe`
-const proxy = `http://dv-proxy.megafon.ru:3128`
+//const curl = `D:\_Soft\curl-7.60.0-win64-mingw\bin\curl.exe`
 const oracletransport = `https://transport.oracle.com/upload/issue/`
 
-//const curl = `curl.exe`
+const curl = `curl.exe`
 
 // Группа синхронизации - для ожидания завершения всех загрузок
 var wg sync.WaitGroup
 
 // cmd flags
 var fMOSAccount string
+var fProxy string
 var fProxyAccount string
 var fFilesList string
 
@@ -40,11 +40,14 @@ func init() {
 		defaultProxyAcc = "ivan.zotov"
 		ProxyAccUsage   = "Set Proxy account in user[:pass] format. When no password is set it shall be asked separately"
 		defaultFilesL   = "list.txt"
-		FilesListusage  = "Set filename with the list of files to upload"
+		FilesListUsage  = "Set filename with the list of files to upload"
+		defaultProxy    = "http://dv-proxy.megafon.ru:3128"
+		ProxyUsage      = "Set http proxy for internet access"
 	)
 	flag.StringVar(&fMOSAccount, "mos_acc", defaultMos, MosUsage)
+	flag.StringVar(&fProxy, "proxy", defaultProxy, ProxyUsage)
 	flag.StringVar(&fProxyAccount, "proxy_acc", defaultProxyAcc, ProxyAccUsage)
-	flag.StringVar(&fFilesList, "files_list", defaultFilesL, FilesListusage)
+	flag.StringVar(&fFilesList, "files_list", defaultFilesL, FilesListUsage)
 }
 
 func main() {
@@ -124,7 +127,7 @@ func runCurl(file string, limit chan int) {
 	cmdArgs = append(cmdArgs, `--user`)
 	cmdArgs = append(cmdArgs, mosUser)
 	cmdArgs = append(cmdArgs, `--proxy`)
-	cmdArgs = append(cmdArgs, proxy)
+	cmdArgs = append(cmdArgs, fProxy)
 	cmdArgs = append(cmdArgs, `--proxy-user`)
 	cmdArgs = append(cmdArgs, proxyUser)
 	cmdArgs = append(cmdArgs, oracletransport+sr+`/`)

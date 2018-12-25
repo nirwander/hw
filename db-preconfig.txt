@@ -1,4 +1,5 @@
 Oracle database
+https://blogs.oracle.com/developers/how-to-connect-a-go-program-to-oracle-database-using-goracle
 
 Используем драйвер
 https://github.com/mattn/go-oci8

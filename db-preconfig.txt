@@ -33,5 +33,14 @@ PKG_CONFIG_PATH=C:\Users\wander\AppData\Local\pkg-config-lite-0.28-1
 	Version: 11.2
 
 
-Выполняем 
+Выполняем
 go get github.com/mattn/go-oci8
+
+
+---------
+Распаковываем mingw-w64.7z в Program Files
+Добавляем в PATH
+C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
+
+set http_proxy=*****
+go get gopkg.in/goracle.v2

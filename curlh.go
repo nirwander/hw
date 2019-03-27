@@ -41,7 +41,7 @@ func init() {
 		ProxyAccUsage   = "Set Proxy account in user[:pass] format. When no password is set it shall be asked separately"
 		defaultFilesL   = "list.txt"
 		FilesListUsage  = "Set filename with the list of files to upload"
-		defaultProxy    = "http://dv-proxy.megafon.ru:3128"
+		defaultProxy    = "http://msk-proxy.megafon.ru:3128"
 		ProxyUsage      = "Set http proxy for internet access"
 	)
 	flag.StringVar(&fMOSAccount, "mos_acc", defaultMos, MosUsage)
@@ -146,6 +146,7 @@ func runCurl(file string, limit chan int) {
 		}
 		fmt.Printf("Try No. %d\n", i)
 		fmt.Println(err)
+		//fmt.Println(cmdArgs)
 	}
 	//time.Sleep(5 * time.Second)
 	//fmt.Println("Done goroutine")

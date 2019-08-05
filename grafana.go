@@ -64,26 +64,24 @@ func main() {
 	}
 	defer conn.Close()
 
+	data = make([]string, 0, 10000)
+	// Собираем не более 5 метрик одновременно
+	limit := make(chan int, 5)
 	for i, arr := range Config {
-		//fmt.Printf("%q\n", arr)
 		log.Println("Working on metric #", i+1)
 		var cmdArgs []string
-		cmdArgs = append(cmdArgs, `-g`)
-		cmdArgs = append(cmdArgs, arr.HostGroup)
-		cmdArgs = append(cmdArgs, `-l`)
-		cmdArgs = append(cmdArgs, `root`)
-		cmdArgs = append(cmdArgs, `--maxlines=1000000`)
-		cmdArgs = append(cmdArgs, arr.MetricCmd)
+		cmdArgs = append(cmdArgs, `-g`, arr.HostGroup, `-l`, `root`, `--maxlines=1000000`, arr.MetricCmd)
 
-		data = make([]string, 0, 100)
 		if fdebug {
 			fmt.Println(cmdArgs)
 		}
-		go getData(&data, cmdArgs, arr, i+1)
+		limit <- 1
+		wg.Add(1)
+		go getData(&data, cmdArgs, arr, i+1, limit)
 
 	}
 	wg.Wait()
-	start = time.Now()
+	start := time.Now()
 	log.Println("Sending data...")
 
 	for _, tcpString := range data {
@@ -98,9 +96,8 @@ func main() {
 
 }
 
-func getData(s *[]string, args []string, metricCfg config, i int) {
+func getData(s *[]string, args []string, metricCfg config, i int, limit chan int) {
 	start := time.Now()
-	wg.Add(1)
 	defer wg.Done()
 	log.Printf("#%d Getting data...\n", i)
 
@@ -109,15 +106,15 @@ func getData(s *[]string, args []string, metricCfg config, i int) {
 		log.Printf("#%d Command executed\n", i)
 	}
 	lines := bytes.Split(fileBytes.Bytes(), []byte("\n"))
-	if fdebug {
-		log.Printf("#%d Got lines\n", i)
-	}
+
 	var hostname string
 	var metric string
 	var metricTime time.Time
 	var metricObj string
 	var metricValue float64
 	var err error
+	var res []string
+	res = make([]string, 0, 100)
 
 	//Для синхронизации показателей на графиках выгружаем все данные в одно время. Иначе получаем "лесенку"
 	metricTime = time.Now().In(time.Local)
@@ -140,9 +137,7 @@ func getData(s *[]string, args []string, metricCfg config, i int) {
 
 				str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + "." + metric + "." + metricObj + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
 
-				mu.Lock()
-				*s = append(*s, str)
-				mu.Unlock()
+				res = append(res, str)
 			}
 		case "ilom":
 			if len(fields) > 3 {
@@ -155,16 +150,18 @@ func getData(s *[]string, args []string, metricCfg config, i int) {
 							return
 						}
 						str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
-						mu.Lock()
-						*s = append(*s, str)
-						mu.Unlock()
+						res = append(res, str)
 						break
 					}
 				}
 			}
 		}
 	}
-	log.Printf("#%d Got in %s\n", i, time.Since(start).String())
+	mu.Lock()
+	*s = append(*s, res...)
+	mu.Unlock()
+	log.Printf("#%d Got %d lines in %s, total %d lines of data\n", i, len(res), time.Since(start).String(), len(*s))
+	<-limit
 }
 
 func execCmd(bin string, args []string) bytes.Buffer {
@@ -181,11 +178,11 @@ func execCmd(bin string, args []string) bytes.Buffer {
 	// log.Printf("Got %d error bytes\n", len(serr.Bytes()))
 	if err != nil {
 		// Некритичная ошибка
-		if bytes.Contains(serr.Bytes(), []byte("Unable to connect")) {
-			log.Printf("%s\n", serr)
-		} else {
-			log.Printf("%s\n", serr)
-		}
+		// if bytes.Contains(serr.Bytes(), []byte("Unable to connect")) {
+		// 	log.Printf("%s\n", serr)
+		// } else {
+		log.Printf("Error %s; %s\n", serr, args)
+		// }
 	}
 	// log.Printf("Returned\n")
 	return out

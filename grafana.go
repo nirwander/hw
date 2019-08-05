@@ -1,5 +1,7 @@
 package main
 
+// https://vlg-gitlab01.megafon.ru/dwh/cellmetrics.v2
+
 import (
 	"bytes"
 	"encoding/json"
@@ -62,18 +64,18 @@ func main() {
 		log.Println("Working on metric #", i+1)
 		var cmdArgs []string
 		cmdArgs = append(cmdArgs, `-g`)
-		//cmdArgs = append(cmdArgs, `/root/cell_group`)
 		cmdArgs = append(cmdArgs, arr.HostGroup)
 		cmdArgs = append(cmdArgs, `-l`)
 		cmdArgs = append(cmdArgs, `root`)
 		cmdArgs = append(cmdArgs, `--maxlines=1000000`)
-		//cmdArgs = append(cmdArgs, `cellcli -e list metriccurrent where name = 'CL_CPUT' attributes name,collectionTime,metricObjectName,metricValue`)
 		cmdArgs = append(cmdArgs, arr.MetricCmd)
 
-		//'Oracle.DWH.''||p_db||''.cellmetric_sum.''||p_disk_type||''.''||regexp_replace(substr(regexp_replace(p_metric_name,''[(,),%,/,:]'',''''),1,49),''[*, ]'',''_'')||''.''||p_suffix
 		start := time.Now()
 		log.Println("Getting data...")
 		data = make([]string, 0, 100)
+		if fdebug {
+			fmt.Println(cmdArgs)
+		}
 		getData(&data, cmdArgs, arr)
 		log.Println("Got in ", time.Since(start).String())
 
@@ -95,7 +97,6 @@ func main() {
 }
 
 func getData(s *[]string, args []string, metricCfg config) {
-	//fileBytes, _ := ioutil.ReadFile(`C:\Users\ivan.zotov\go\src\github.com\nirwander\hw\cellm.txt`)
 	fileBytes := execCmd(dcli, args)
 
 	lines := bytes.Split(fileBytes.Bytes(), []byte("\n"))
@@ -115,16 +116,12 @@ func getData(s *[]string, args []string, metricCfg config) {
 		fields := bytes.Fields(line)
 		switch metricCfg.MetricFormat {
 		case "cellcli":
-			if len(fields) > 5 {
+			if len(fields) > 4 {
 				//fmt.Printf("%q\n", fields)
 				hostname = strings.TrimSuffix(string(fields[0]), ":")
 				metricObj = string(fields[3])
 				metric = string(fields[1])
 
-				if err != nil {
-					fmt.Println("Error converting time", err)
-					return
-				}
 				metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[4]), ",", "", -1), 64)
 				if err != nil {
 					fmt.Println("Error converting metric value", err)
@@ -180,7 +177,7 @@ func execCmd(bin string, args []string) bytes.Buffer {
 func getConfig() {
 	ex, err := os.Executable()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	exPath := filepath.Dir(ex)
 
@@ -194,5 +191,4 @@ func getConfig() {
 		log.Fatal("Error parsing config", err)
 	}
 
-	//fmt.Println(Config)
 }

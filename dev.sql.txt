@@ -1,0 +1,45 @@
+/*Схемы и доступы:
+1. ?mo_stg, kv_stg, vl_stg, nw_stg, sb_stg, ur_stg, fe_stg, dw_stg, gfm_stg gff_stg- доступ на select из таблиц
+2. ?BO_HQ, BO_HQ_DC- доступ на select из таблиц, просмотр view, mview
+3. ?CTL, CTL2, PRM, dbvc, PRODUCTS- доступ на select из таблиц
+4. ?PUB_DS, mo_ds, kv_ds, vl_ds, nw_ds, sb_dS, ur_ds, fe_ds, dw_ds, gfm_ds, gff_ds- доступ на select из таблиц, просмотр view, просмотр packages, function, procedures,triggers*/
+select * from dba_users
+
+sys.mf_compact_datafiles
+
+create role GRANTAUTO$_PUB_DS_$READ_DIRECT;
+
+grant GRANTAUTO$_PUB_DS_$READ_DIRECT to tools;
+
+
+select regexp_substr(rp.granted_role, 'GRANTAUTO\$_(.*)_\$',1,1,'i',1) as shema, rp.* from dba_role_privs rp where granted_role like 'GRANTAUTO$\_%' escape '\' and grantee <> 'SYS';
+
+if granted_role like '%$READ_DIRECT' then
+
+select 'grant read on '||dt.owner||'.'||dt.table_name||' to TOOLS /* GRANTAUTO$ */' im, dt.* from cache_dba_tables_$$ dt where dt.owner = 'PUB_DS'
+and not exists (select * from cache_dba_tab_privs$$ pr where pr.owner = dt.owner and pr.grantee = 'TOOLS' and pr.table_name = dt.table_name and pr.privilege in ('READ', 'SELECT'))
+and dt.table_name in ('D_VASP_ERRORCODE','M_INBOUND_STOP_TP')
+
+end if;
+
+--grant read on PUB_DS.D_VASP_ERRORCODE to tools, pub_dev;
+
+
+select count(*) from dba_tab_privs
+
+begin
+for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_EXTENTS_$$' and o.temporary = 'Y')
+loop
+   execute immediate 'truncate table '||i.owner||'.cache_dba_tables_$$';
+   execute immediate 'drop table '||i.owner||'.cache_dba_tables_$$';
+end loop;
+for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_FREE_SPACE$$' and o.temporary = 'Y')
+loop
+   execute immediate 'truncate table '||i.owner||'.cache_dba_tab_privs$$';
+   execute immediate 'drop table '||i.owner||'.cache_dba_tab_privs$$';
+end loop;
+execute immediate 'create global temporary table cache_dba_tables_$$ on commit preserve rows parallel 4 as select dt.owner, dt.table_name from dba_tables dt';
+execute immediate 'create global temporary table cache_dba_tab_privs$$ on commit preserve rows parallel 4 as select * from dba_tab_privs';
+end;
+
+select count(*) from cache_dba_tab_privs$$

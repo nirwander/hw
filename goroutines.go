@@ -70,7 +70,7 @@ func main() {
 	x := <-c2
 	log.Printf("%d messages exchanged, %0.1f per sec\n", x, float64(x)/5)
 	close(stop)
-	wg.Wait()
+	//wg.Wait()
 	log.Printf("end\n")
 	// panic("end")
 }

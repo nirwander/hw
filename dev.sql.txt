@@ -18,28 +18,96 @@ if granted_role like '%$READ_DIRECT' then
 
 select 'grant read on '||dt.owner||'.'||dt.table_name||' to TOOLS /* GRANTAUTO$ */' im, dt.* from cache_dba_tables_$$ dt where dt.owner = 'PUB_DS'
 and not exists (select * from cache_dba_tab_privs$$ pr where pr.owner = dt.owner and pr.grantee = 'TOOLS' and pr.table_name = dt.table_name and pr.privilege in ('READ', 'SELECT'))
-and dt.table_name in ('D_VASP_ERRORCODE','M_INBOUND_STOP_TP')
+
 
 end if;
 
 --grant read on PUB_DS.D_VASP_ERRORCODE to tools, pub_dev;
 
+create role GRANTAUTO$_MO_STG_$READ_DIRECT;
+create role GRANTAUTO$_KV_STG_$READ_DIRECT;
+create role GRANTAUTO$_VL_STG_$READ_DIRECT;
+create role GRANTAUTO$_NW_STG_$READ_DIRECT;
+create role GRANTAUTO$_SB_STG_$READ_DIRECT;
+create role GRANTAUTO$_UR_STG_$READ_DIRECT;
+create role GRANTAUTO$_FE_STG_$READ_DIRECT;
+create role GRANTAUTO$_DW_STG_$READ_DIRECT;
+create role GRANTAUTO$_GFM_STG_$READ_DIRECT;
+create role GRANTAUTO$_GFF_STG_$READ_DIRECT;
 
-select count(*) from dba_tab_privs
+create role GRANTAUTO$_CTL_$READ_DIRECT;
+create role GRANTAUTO$_CTL2_$READ_DIRECT;
+create role GRANTAUTO$_PRM_$READ_DIRECT;
+create role GRANTAUTO$_DBVC_$READ_DIRECT;
+create role GRANTAUTO$_PRODUCTS_$READ_DIRECT;
+
+create role GRANTAUTO$_PUB_DS_$READ_DIRECT;
+create role GRANTAUTO$_MO_DS_$READ_DIRECT;
+create role GRANTAUTO$_KV_DS_$READ_DIRECT;
+create role GRANTAUTO$_VL_DS_$READ_DIRECT;
+create role GRANTAUTO$_NW_DS_$READ_DIRECT;
+create role GRANTAUTO$_SB_DS_$READ_DIRECT;
+create role GRANTAUTO$_UR_DS_$READ_DIRECT;
+create role GRANTAUTO$_FE_DS_$READ_DIRECT;
+create role GRANTAUTO$_DW_DS_$READ_DIRECT;
+create role GRANTAUTO$_GFM_DS_$READ_DIRECT;
+create role GRANTAUTO$_GFF_DS_$READ_DIRECT;
+
+
+grant GRANTAUTO$_PUB_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_MO_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_KV_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_VL_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_NW_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_SB_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_UR_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_FE_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_DW_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_GFM_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_GFF_STG_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_CTL_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_CTL2_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_PRM_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_DBVC_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_PRODUCTS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_MO_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_KV_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_VL_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_NW_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_SB_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_UR_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_FE_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_DW_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_GFM_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+grant GRANTAUTO$_GFF_DS_$READ_DIRECT to DQ_DWH/*Q4567441*/;
+
 
 begin
-for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_EXTENTS_$$' and o.temporary = 'Y')
-loop
-   execute immediate 'truncate table '||i.owner||'.cache_dba_tables_$$';
-   execute immediate 'drop table '||i.owner||'.cache_dba_tables_$$';
-end loop;
-for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_FREE_SPACE$$' and o.temporary = 'Y')
-loop
-   execute immediate 'truncate table '||i.owner||'.cache_dba_tab_privs$$';
-   execute immediate 'drop table '||i.owner||'.cache_dba_tab_privs$$';
-end loop;
-execute immediate 'create global temporary table cache_dba_tables_$$ on commit preserve rows parallel 4 as select dt.owner, dt.table_name from dba_tables dt';
-execute immediate 'create global temporary table cache_dba_tab_privs$$ on commit preserve rows parallel 4 as select * from dba_tab_privs';
+  for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_TABLES_$$' and o.temporary = 'Y')
+  loop
+     execute immediate 'truncate table '||i.owner||'.cache_dba_tables_$$';
+     execute immediate 'drop table '||i.owner||'.cache_dba_tables_$$';
+  end loop;
+  for i in (select * from dba_objects o where o.object_name = 'CACHE_DBA_TAB_PRIVS$$' and o.temporary = 'Y')
+  loop
+     execute immediate 'truncate table '||i.owner||'.cache_dba_tab_privs$$';
+     execute immediate 'drop table '||i.owner||'.cache_dba_tab_privs$$';
+  end loop;
+  execute immediate 'create global temporary table cache_dba_tables_$$ on commit preserve rows parallel 1 as select dt.owner, dt.table_name from dba_tables dt';
+  execute immediate 'create global temporary table cache_dba_tab_privs$$ on commit preserve rows parallel 1 as select * from dba_tab_privs';
+  
+  for i in (select regexp_substr(rp.granted_role, 'GRANTAUTO\$_(.*)_\$',1,1,'i',1) as shema, rp.* from dba_role_privs rp where granted_role like 'GRANTAUTO$\_%' escape '\' and grantee <> 'SYS')
+  loop
+      if granted_role like '%$READ_DIRECT' then
+         for j in (
+            select 'grant read on '||dt.owner||'.'||dt.table_name||' to '||i.grantee||' /* GRANTAUTO$ */' im, dt.* from cache_dba_tables_$$ dt where dt.owner = i.schema
+                   and not exists (select * from cache_dba_tab_privs$$ pr where pr.owner = dt.owner and pr.grantee = i.grantee and pr.table_name = dt.table_name and pr.privilege in ('READ', 'SELECT'))
+         )
+         loop
+                   dbms_output.put_line(j.im||';');
+         end loop;
+      end if;
+  end loop;
 end;
 
-select count(*) from cache_dba_tab_privs$$
+

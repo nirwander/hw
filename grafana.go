@@ -101,7 +101,7 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 	defer wg.Done()
 	log.Printf("#%d Getting data...\n", i)
 
-	fileBytes := execCmd(dcli, args)
+	fileBytes := execCmd(dcli, args, i)
 	if fdebug {
 		log.Printf("#%d Command executed\n", i)
 	}
@@ -164,7 +164,7 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 	<-limit
 }
 
-func execCmd(bin string, args []string) bytes.Buffer {
+func execCmd(bin string, args []string, i int) bytes.Buffer {
 	var out bytes.Buffer
 	var serr bytes.Buffer
 
@@ -181,7 +181,7 @@ func execCmd(bin string, args []string) bytes.Buffer {
 		// if bytes.Contains(serr.Bytes(), []byte("Unable to connect")) {
 		// 	log.Printf("%s\n", serr)
 		// } else {
-		log.Printf("Error %s; %s\n", serr, args)
+		log.Printf("#%d Error executing command %s; %s\n", i, serr, args)
 		// }
 	}
 	// log.Printf("Returned\n")

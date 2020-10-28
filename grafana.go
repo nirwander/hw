@@ -70,7 +70,7 @@ func main() {
 	for i, arr := range Config {
 		log.Println("Working on metric #", i+1)
 		var cmdArgs []string
-		cmdArgs = append(cmdArgs, `-g`, arr.HostGroup, `-l`, `root`, `--maxlines=1000000`, arr.MetricCmd)
+		cmdArgs = append(cmdArgs, `-g`, arr.HostGroup, `-l`, `root`, `--maxlines=1000000`, `--hidestderr`, arr.MetricCmd)
 
 		if fdebug {
 			fmt.Println(cmdArgs)

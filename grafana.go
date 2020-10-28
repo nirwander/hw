@@ -131,7 +131,8 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 
 				metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[4]), ",", "", -1), 64)
 				if err != nil {
-					fmt.Printf("#%d Error converting metric value, %s", i, err)
+					fmt.Printf("\t#%d Error converting metric value, %s\n", i, err)
+					fmt.Printf("\t#%d Dumping value: %s\n", i, fields[4])
 					return
 				}
 
@@ -146,7 +147,8 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 					if string(field) == "value" && string(fields[i+1]) == "=" {
 						metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[i+2]), ",", "", -1), 64)
 						if err != nil {
-							fmt.Printf("#%d Error converting metric value, %s", i, err)
+							fmt.Printf("\t#%d Error converting metric value, %s\n", i, err)
+							fmt.Printf("\t#%d Dumping value: %s\n", i, fields[i+2])
 							return
 						}
 						str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"

@@ -183,7 +183,7 @@ func execCmd(bin string, args []string, i int) bytes.Buffer {
 		// if bytes.Contains(serr.Bytes(), []byte("Unable to connect")) {
 		// 	log.Printf("%s\n", serr)
 		// } else {
-		log.Printf("#%d Error executing command %s; %s\n", i, serr, args)
+		log.Printf("#%d Error executing command %s; %s; %s \n", i, args, serr, err)
 		// }
 	}
 	// log.Printf("Returned\n")

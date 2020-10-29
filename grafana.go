@@ -132,7 +132,7 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 				metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[4]), ",", "", -1), 64)
 				if err != nil {
 					fmt.Printf("\t#%d Error converting metric value, %s\n", i, err)
-					fmt.Printf("\t#%d Dumping value: %s\n", i, fields[4])
+					fmt.Printf("\t#%d Dumping value: '%s', array: '%s'\n", i, fields[4], fields)
 					return
 				}
 
@@ -148,7 +148,7 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 						metricValue, err = strconv.ParseFloat(strings.Replace(string(fields[i+2]), ",", "", -1), 64)
 						if err != nil {
 							fmt.Printf("\t#%d Error converting metric value, %s\n", i, err)
-							fmt.Printf("\t#%d Dumping value: %s\n", i, fields[i+2])
+							fmt.Printf("\t#%d Dumping value: '%s', array: '%s'\n", i, fields[i+2], fields)
 							return
 						}
 						str := "Oracle.DWH." + metricCfg.MetricDb + "." + metricCfg.MetricGroup + "." + hostname + " " + strconv.FormatFloat(metricValue, 'f', -1, 64) + " " + strconv.FormatInt(metricTime.Unix(), 10) + "\r\n"
@@ -161,8 +161,8 @@ func getData(s *[]string, args []string, metricCfg config, i int, limit chan int
 	}
 	mu.Lock()
 	*s = append(*s, res...)
-	mu.Unlock()
 	log.Printf("#%d Got %d lines in %s, total %d lines of data\n", i, len(res), time.Since(start).String(), len(*s))
+	mu.Unlock()
 	<-limit
 }
 

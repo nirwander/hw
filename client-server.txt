@@ -1,0 +1,7 @@
+https://www.linode.com/docs/guides/developing-udp-and-tcp-clients-and-servers-in-go/
+https://stackoverflow.com/questions/51254367/making-golang-tcp-server-concurrent
+https://opensource.com/article/18/5/building-concurrent-tcp-server-go
+http://www.inanzzz.com/index.php/post/j3n1/creating-a-concurrent-tcp-client-and-server-example-with-golang
+https://dev-gang.ru/article/golang-prostoy-server-tcp-i-tcp-klient/
+https://bitbucket.org/blog/writing-a-microservice-in-golang-which-communicates-over-grpc
+https://yalantis.com/blog/how-to-build-websockets-in-go/

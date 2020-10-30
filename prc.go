@@ -3,9 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/csv"
+	"encoding/gob"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -34,6 +36,8 @@ type CsvLine struct {
 	DestHost      string
 	DestTrail     string
 }
+
+type CsvData []CsvLine
 
 func main() {
 
@@ -66,7 +70,7 @@ func main() {
 			log.Printf("%d\t%s\n", process.Pid(), process.Executable())
 			// do os.* stuff on the pid
 			line := "/proc/" + strconv.Itoa(process.Pid()) + "/environ"
-			fmt.Println(line)
+			// fmt.Println(line)
 			if _, err := os.Stat(line); err != nil {
 				if os.IsNotExist(err) {
 					fmt.Printf("File %s does not exists\n", line)
@@ -120,7 +124,7 @@ func main() {
 
 	fmt.Printf("\nProcessing files\n")
 
-	var csvData = make([]CsvLine, 0, 20)
+	var csvData = make(CsvData, 0, 20)
 
 	for _, name := range CSVfiles {
 
@@ -153,8 +157,17 @@ func main() {
 
 		}
 		fmt.Printf("Got %s\n\n", csvData)
+
+		fmt.Printf("\nSending data...\n")
+		sendData(csvData)
+		if err != nil {
+			log.Fatalf("Error sending data. %s", err)
+		}
+
+		fmt.Printf("\nClearing file %s\n", name)
 		os.Remove(name)
 	}
+	fmt.Printf("\nDone\n")
 
 }
 
@@ -184,13 +197,33 @@ func readCsv(filename string) ([][]string, error) {
 func readCurrentDir() []string {
 	file, err := os.Open(".")
 	if err != nil {
-		log.Fatalf("Failed opening directory: %s\n", err)
+		log.Fatalf("Failed opening current directory: %s\n", err)
 	}
 	defer file.Close()
 
 	list, _ := file.Readdirnames(0) // 0 to read all files and folders
-	// for _, name := range list {
-	//     fmt.Println(name)
-	// }
+
 	return list
+}
+
+func sendData(msg CsvData) error {
+
+	binBuf := new(bytes.Buffer)
+
+	// error handling still truncated
+	conn, err := net.Dial("tcp", "0.0.0.0:8000")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer conn.Close()
+
+	// create a encoder object
+	gobobj := gob.NewEncoder(binBuf)
+
+	// encode buffer and marshal it into a gob object
+	gobobj.Encode(msg)
+
+	_, err = conn.Write(binBuf.Bytes())
+
+	return err
 }

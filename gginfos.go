@@ -58,14 +58,14 @@ func main() {
 	server, _ := net.Listen("tcp", ":"+strconv.Itoa(tcpPort))
 	defer server.Close()
 
-	fmt.Printf("Accept connection on port %s\n", tcpPort)
+	log.Printf("Accept connection on port %d\n", tcpPort)
 
 	for {
 		conn, err := server.Accept()
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Calling handleConnection")
+		log.Println("Calling handleConnection")
 		go handleConnection(conn)
 	}
 }
@@ -90,21 +90,21 @@ func handleConnection(conn net.Conn) {
 	gobobj.Decode(tmpstruct)
 
 	if fdebug {
-		fmt.Printf("Got %s\n\n", tmpstruct)
+		log.Printf("Got %s\n\n", tmpstruct)
 	}
 
 	saveToDB(tmpstruct)
 }
 
 func saveToDB(data *CsvData) {
-	db, err := sql.Open("goracle" /*os.Args[1]*/, `inventory/Pi100_let338@msk_dbmon`)
+	db, err := sql.Open("goracle", `inventory/Pi100_let338@msk_dbmon`)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	defer db.Close()
 
-	tx, err := db.Begin() //db.Begin()
+	tx, err := db.Begin()
 	if err != nil {
 		log.Printf("Error starting DB transaction: %s\n", err)
 	}

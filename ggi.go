@@ -229,6 +229,8 @@ func main() {
 
 		log.Printf("Clearing file %s\n", name)
 		os.Remove(name)
+		csvData = csvData[:0]
+
 	}
 	log.Printf("Done\n")
 

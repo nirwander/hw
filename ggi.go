@@ -222,7 +222,7 @@ func main() {
 		}
 
 		log.Printf("Sending data...\n")
-		sendData(csvData)
+		err = sendData(csvData)
 		if err != nil {
 			log.Fatalf("Error sending data. %s", err)
 		}
